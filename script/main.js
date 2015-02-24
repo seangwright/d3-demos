@@ -1,73 +1,43 @@
 (function () {
     'use strict';
 
-    document.addEventListener("DOMContentLoaded", function (event) {
-        var dataArray = [10, 20, 30, 40, 50, 60];
-
-        var max = 60;
-        
-        var numTicks = 2;
-        
-        var containerWidth = 500,
-            containerHeight = 500,
-            width = 400,
-            height = 400;
-
-        var widthScale = d3
-            .scale
-            .linear()
-            .domain([0, max])
-            .range([0, width]);
-
-        var colorScale = d3
-            .scale
-            .linear()
-            .domain([9, max])
-            .range(["red", "blue"]);
-
-        var axis = d3
-            .svg
-            .axis()
-            .scale(widthScale)
-            .ticks(numTicks)
-            .tickValues(function () {
-                var vals = [0];
-                
-                for (var x = 1; x <= numTicks; x += 1) {
-                    vals.push(max/x);
-                }
-                
-                return vals;
-            });
+    document.addEventListener("DOMContentLoaded", eListener);
+    
+    function eListener(event) {
+        var data = [10, 20, 30, 40, 50];
 
         var canvas = d3
             .select("body")
             .append("svg")
-            .attr("width", containerWidth)
-            .attr("height", containerHeight)
-            .append("g")
-            .attr("transform", "translate(10, 10)")
-            
-        canvas
-            .append("g")
-            .attr("transform", "translate(0, 400)")
-            .call(axis);
+            .attr("width", 500)
+            .attr("height", 500);
 
-        var bars = canvas
-            .selectAll("rect")
-            .data(dataArray)
+        var circle1 = canvas
+            .append("circle")
+            .attr("cx", 50)
+            .attr("cy", 100)
+            .attr("fill", "red")
+            .attr("r", 25);
+        
+        var circle2 = canvas
+            .append("circle")
+            .attr("cx", 50)
+            .attr("cy", 200)
+            .attr("fill", "red")
+            .attr("r", 25);
+
+        var circles = canvas
+            .selectAll("circle")
+            .data(data)
             .enter()
-            .append("rect")
-            .attr("width", function (d) {
-                return widthScale(d);
+            .append("circle")
+            .attr("cx", function (d) {
+                return d * 5 - 100;
             })
-            .attr("height", 50)
-            .attr("x", 0)
-            .attr("y", function (d, i) {
-                return i * 60;
+            .attr("cy", function (d) {
+                return d * 5 - 100;
             })
-            .attr("fill", function (d) {
-                return colorScale(d);
-            });
-    });
+            .attr("fill", "green")
+            .attr("r", 25)
+    }
 }());
