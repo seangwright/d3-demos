@@ -12,32 +12,37 @@
             .attr("width", 500)
             .attr("height", 500);
 
-        var circle1 = canvas
+        var circle = canvas
             .append("circle")
             .attr("cx", 50)
             .attr("cy", 100)
-            .attr("fill", "red")
+            .attr("fill", "black")
             .attr("r", 25);
         
-        var circle2 = canvas
-            .append("circle")
+        transitionStart(circle);
+    }
+    
+    function transitionStart(circle) {
+        circle
+            .transition()
+            .duration(1500)
+            .attr("cx", 150)
+            .attr("cy", 150)
+            .attr("fill", "white")
+            .each("end", function () {
+                transitionReturn(circle);
+            });
+    }
+    
+    function transitionReturn(circle) {
+        circle
+            .transition()
+            .duration(1500)
             .attr("cx", 50)
-            .attr("cy", 200)
-            .attr("fill", "red")
-            .attr("r", 25);
-
-        var circles = canvas
-            .selectAll("circle")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d) {
-                return d * 5 - 100;
-            })
-            .attr("cy", function (d) {
-                return d * 5 - 100;
-            })
-            .attr("fill", "green")
-            .attr("r", 25)
+            .attr("cy", 100)
+            .attr("fill", "black")
+            .each("end", function () {
+                transitionStart(circle);
+            });
     }
 }());
